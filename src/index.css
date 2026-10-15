@@ -3,25 +3,33 @@
 @tailwind utilities;
 
 @layer base {
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
   body {
-    @apply bg-sand-50 text-ink-800 font-sans antialiased;
+    @apply bg-paper font-serif text-ink antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    caret-color: theme('colors.cobalt.DEFAULT');
+    overflow-x: hidden;
   }
-  ::selection { @apply bg-clay-500 text-sand-50; }
-  :focus-visible { @apply outline-none ring-2 ring-clay-500 ring-offset-2 ring-offset-sand-50; }
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+  ::selection { background: theme('colors.cobalt.DEFAULT'); color: theme('colors.paper.DEFAULT'); }
+  :focus-visible { outline: 2px solid theme('colors.cobalt.DEFAULT'); outline-offset: 3px; border-radius: 2px; }
+  .on-dark :focus-visible { outline-color: theme('colors.cobalt.light'); }
+  a { text-underline-offset: 0.2em; text-decoration-thickness: 1px; }
+  .tnum { font-variant-numeric: tabular-nums lining-nums; }
 }
 
 @layer components {
-  .container-x { @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8; }
-  .eyebrow { @apply text-xs font-semibold uppercase tracking-[0.2em] text-clay-500; }
-  .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-full bg-clay-500 px-6 py-3 text-sm font-semibold text-sand-50 transition-colors hover:bg-clay-600;
+  .wrap { @apply mx-auto w-full max-w-page px-5 sm:px-8 lg:px-12; }
+  .label { @apply text-[0.8125rem] font-semibold uppercase tracking-[0.14em]; }
+  .btn {
+    @apply inline-flex min-h-[48px] items-center justify-center gap-2 rounded-[2px] px-6 text-[0.95rem] font-semibold transition-[background-color,color,transform] duration-150 ease-out active:translate-y-px disabled:opacity-50;
   }
-  .btn-ghost {
-    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ink-800/15 px-6 py-3 text-sm font-semibold text-ink-800 transition-colors hover:border-ink-800/40;
-  }
+  .btn-solid { @apply btn bg-cobalt text-paper hover:bg-cobalt-deep; }
+  .btn-light { @apply btn bg-paper text-ink hover:bg-white; }
   .field {
-    @apply w-full rounded-xl border border-ink-800/15 bg-white px-4 py-3 text-sm text-ink-800 placeholder:text-ink-700/40 transition focus:border-clay-500 focus:outline-none focus:ring-4 focus:ring-clay-500/15;
+    @apply block w-full rounded-none border-0 border-b border-ink/25 bg-transparent px-0 py-3 text-[1.0625rem] text-ink placeholder:text-ink-mute transition-colors duration-150 focus:border-cobalt focus:outline-none focus:ring-0;
   }
 }
 

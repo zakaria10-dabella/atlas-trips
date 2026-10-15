@@ -1,14 +1,14 @@
 export const regions = ['All', 'North', 'Center', 'South', 'Atlantic']
 export const types = ['All', 'City', 'Coast', 'Desert', 'Mountains']
 
-// palette: [sky top, sky bottom, ground, accent]
 export const destinations = [
   {
     id: 'marrakech',
+    photo: '/photos/marrakech.jpg',
+    alt: 'Evening crowds and green market parasols on Jemaa el-Fna square, Marrakech',
     name: 'Marrakech',
     region: 'Center',
     type: 'City',
-    scene: 'medina',
     tagline: 'The Red City that never sleeps',
     description:
       'Lose yourself in the souks of the medina, sip mint tea on a rooftop above Jemaa el-Fna at dusk, and slow down in the cobalt calm of the Majorelle Garden.',
@@ -17,14 +17,14 @@ export const destinations = [
     price: 2400,
     rating: 4.9,
     highlights: ['Jemaa el-Fna at sunset', 'Majorelle Garden', 'Bahia Palace', 'Riad stay in the medina'],
-    palette: ['#F2B880', '#E8875B', '#B4482A', '#FFE3B8'],
   },
   {
     id: 'chefchaouen',
+    photo: '/photos/chefchaouen.jpg',
+    alt: 'A stepped alley in Chefchaouen, every wall and stair washed in blue',
     name: 'Chefchaouen',
     region: 'North',
     type: 'Mountains',
-    scene: 'blue',
     tagline: 'A blue pearl in the Rif',
     description:
       'Wander lanes washed in every shade of blue, hike to the Spanish Mosque for the golden hour view, and taste the local goat cheese in the Outa el Hammam square.',
@@ -33,14 +33,15 @@ export const destinations = [
     price: 1650,
     rating: 4.8,
     highlights: ['Outa el Hammam square', 'Spanish Mosque viewpoint', 'Akchour waterfalls', 'Rif goat cheese'],
-    palette: ['#BFD7F5', '#7FA8E0', '#3E63B8', '#E8F1FF'],
   },
   {
     id: 'merzouga',
+    focus: '40% 70%',
+    photo: '/photos/merzouga.jpg',
+    alt: 'Shadows of a camel caravan stretched across an Erg Chebbi dune',
     name: 'Merzouga',
     region: 'South',
     type: 'Desert',
-    scene: 'dunes',
     tagline: 'Sleep under Saharan stars',
     description:
       'Ride a camel into the Erg Chebbi dunes as they glow amber, spend the night in a Berber camp with gnawa drums, and wake up before dawn for a sunrise you will never forget.',
@@ -49,14 +50,15 @@ export const destinations = [
     price: 2900,
     rating: 4.9,
     highlights: ['Erg Chebbi camel trek', 'Night in a desert camp', 'Sunrise from the dunes', 'Gnawa music in Khamlia'],
-    palette: ['#FBD38D', '#F6A65A', '#D9773A', '#FFF1D6'],
   },
   {
     id: 'essaouira',
+    focus: '40% 60%',
+    photo: '/photos/essaouira.jpg',
+    alt: 'Blue wooden fishing boats packed into the port of Essaouira under circling gulls',
     name: 'Essaouira',
     region: 'Atlantic',
     type: 'Coast',
-    scene: 'sea',
     tagline: 'Wind, waves and white ramparts',
     description:
       'Walk the Skala ramparts where the Atlantic crashes below, eat grilled sardines at the blue fishing port, and catch the trade winds on a kitesurf lesson.',
@@ -65,14 +67,14 @@ export const destinations = [
     price: 1800,
     rating: 4.7,
     highlights: ['Skala de la Ville', 'Fishing port lunch', 'Kitesurf on the bay', 'Thuya wood workshops'],
-    palette: ['#CDE7EA', '#8CC5CB', '#2F7F8A', '#F4FBFB'],
   },
   {
     id: 'fes',
+    photo: '/photos/fes.jpg',
+    alt: 'The dye pits of the Chouara tannery seen from a terrace in Fès el-Bali',
     name: 'Fès',
     region: 'North',
     type: 'City',
-    scene: 'medina',
     tagline: 'A living medieval medina',
     description:
       'Navigate the 9,000 alleys of Fès el-Bali, watch artisans at the Chouara tannery from a leather shop terrace, and visit Al Quaraouiyine, one of the oldest universities in the world.',
@@ -81,14 +83,15 @@ export const destinations = [
     price: 2100,
     rating: 4.8,
     highlights: ['Chouara tannery', 'Al Quaraouiyine', 'Bab Bou Jeloud', 'Merinid tombs at sunset'],
-    palette: ['#E9D8A6', '#C9A86A', '#6B7F3A', '#FFF6DE'],
   },
   {
     id: 'ait-ben-haddou',
+    focus: '35% 50%',
+    photo: '/photos/aitbenhaddou.jpg',
+    alt: 'The earthen ksar of Aït Ben Haddou rising behind palms and the Ounila riverbed',
     name: 'Aït Ben Haddou',
     region: 'South',
     type: 'Desert',
-    scene: 'kasbah',
     tagline: 'A ksar carved from earth',
     description:
       'Cross the Ounila river to the UNESCO-listed ksar, climb to the granary at the top for sweeping views, and discover the film studios of nearby Ouarzazate.',
@@ -97,14 +100,15 @@ export const destinations = [
     price: 950,
     rating: 4.6,
     highlights: ['UNESCO ksar', 'Hilltop granary', 'Atlas Film Studios', 'Tizi n’Tichka pass'],
-    palette: ['#F5C9A0', '#E09A6A', '#A35A2E', '#FFE7CF'],
   },
   {
     id: 'imlil',
+    focus: '62% 50%',
+    photo: '/photos/imlil.jpg',
+    alt: 'Walnut groves filling the Imlil valley below the bare peaks of the High Atlas',
     name: 'Imlil',
     region: 'Center',
     type: 'Mountains',
-    scene: 'mountains',
     tagline: 'Gateway to Toubkal',
     description:
       'Trek through walnut groves and Amazigh villages, share couscous with a local family, and take on North Africa’s highest summit, Jbel Toubkal at 4,167 m.',
@@ -113,14 +117,15 @@ export const destinations = [
     price: 2650,
     rating: 4.8,
     highlights: ['Toubkal summit trek', 'Amazigh village lunch', 'Walnut grove walks', 'Kasbah du Toubkal'],
-    palette: ['#D3E4EE', '#9BB9CC', '#4F6E58', '#F5FAFC'],
   },
   {
     id: 'dakhla',
+    focus: '50% 82%',
+    photo: '/photos/dakhla.jpg',
+    alt: 'A straight desert road running to the horizon near Dakhla at dusk',
     name: 'Dakhla',
     region: 'Atlantic',
     type: 'Coast',
-    scene: 'lagoon',
     tagline: 'Where the desert meets the lagoon',
     description:
       'Kite across one of the flattest lagoons on earth, soak in the Asma hot spring, and eat oysters fresh from the bay where the Sahara dips into the ocean.',
@@ -129,14 +134,15 @@ export const destinations = [
     price: 3900,
     rating: 4.9,
     highlights: ['Kitesurf the lagoon', 'Dragon Island', 'Oyster farm tasting', 'White Dune at low tide'],
-    palette: ['#C8EEF0', '#7FD3D8', '#E7C68F', '#F0FFFF'],
   },
   {
     id: 'tangier',
+    focus: '72% 60%',
+    photo: '/photos/tangier.jpg',
+    alt: 'White houses of Tangier climbing the hill above the port',
     name: 'Tangier',
     region: 'North',
     type: 'Coast',
-    scene: 'sea',
     tagline: 'Two seas, two continents',
     description:
       'Look across the Strait to Spain from Café Hafa, explore the Kasbah museum, and drive to Cap Spartel where the Mediterranean meets the Atlantic.',
@@ -145,6 +151,5 @@ export const destinations = [
     price: 1700,
     rating: 4.5,
     highlights: ['Café Hafa terraces', 'Hercules Caves', 'Cap Spartel lighthouse', 'Kasbah Museum'],
-    palette: ['#DCE6F7', '#A6BEE8', '#2D4F8E', '#F7FAFF'],
   },
 ]

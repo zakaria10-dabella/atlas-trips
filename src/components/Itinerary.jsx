@@ -1,59 +1,83 @@
-import { useRef } from 'react'
-import { motion, useScroll, useSpring } from 'framer-motion'
-import { Landmark, Map, Mountain, Plane, Route, Sun, Tent, Trees } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { AnimatePresence, motion, useInView, useReducedMotion, useScroll, useSpring } from 'framer-motion'
 import { itinerary } from '../data/itinerary'
-import Reveal from './Reveal'
+import Reveal, { ease } from './Reveal'
 
-const icons = { sun: Sun, map: Map, mountain: Mountain, route: Route, tent: Tent, trees: Trees, landmark: Landmark, plane: Plane }
-
-export default function Itinerary() {
+function Day({ step, index, active, onActive, showPhoto }) {
   const ref = useRef(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 70%', 'end 60%'] })
-  const scaleY = useSpring(scrollYProgress, { stiffness: 120, damping: 30 })
+  const inView = useInView(ref, { margin: '-45% 0px -45% 0px' })
+  useEffect(() => { if (inView) onActive(index) }, [inView, index, onActive])
 
   return (
-    <section id="itinerary" className="scroll-mt-16 bg-ink-800 py-20 text-sand-50 sm:py-28">
-      <div className="container-x">
-        <Reveal className="mx-auto max-w-2xl text-center">
-          <p className="eyebrow text-saffron">Signature itinerary</p>
-          <h2 className="mt-3 font-display text-4xl font-semibold sm:text-5xl">Imperial cities & Sahara, in 8 days</h2>
-          <p className="mt-4 text-sand-100/70">Marrakech to Fès through the High Atlas and the dunes of Erg Chebbi. Private driver, hand-picked riads, no rushing.</p>
+    <li ref={ref} className={`relative pl-8 transition-opacity duration-500 lg:flex lg:min-h-[62vh] lg:flex-col lg:justify-center lg:pl-14 ${active ? '' : 'lg:opacity-40'}`}>
+      <span aria-hidden="true" className="absolute left-0 top-2 h-2.5 w-2.5 -translate-x-1/2 rounded-full bg-cobalt-light lg:top-1/2" />
+      {showPhoto && (
+        <div className="mb-6 aspect-[16/10] overflow-hidden bg-night-line lg:hidden">
+          <img src={step.photo} alt="" width="1280" height="854" loading="lazy" decoding="async" className="h-full w-full object-cover" />
+        </div>
+      )}
+      <p className="label text-cobalt-light">
+        Day <span className="tnum">{step.day}</span> <span aria-hidden="true">/</span> {step.place}
+      </p>
+      <h3 className="mt-3 font-display text-[2rem] leading-[1.1] tracking-[-0.01em] sm:text-[2.5rem]">{step.title}</h3>
+      <p className="mt-4 max-w-[48ch] text-[1.0625rem] leading-[1.7] text-night-soft">{step.detail}</p>
+    </li>
+  )
+}
+
+export default function Itinerary() {
+  const listRef = useRef(null)
+  const reduce = useReducedMotion()
+  const [active, setActive] = useState(0)
+  const { scrollYProgress } = useScroll({ target: listRef, offset: ['start 60%', 'end 50%'] })
+  const scaleY = useSpring(scrollYProgress, { stiffness: 140, damping: 30 })
+  const step = itinerary[active]
+
+  return (
+    <section id="itinerary" aria-labelledby="route-title" className="on-dark scroll-mt-16 bg-night py-24 text-paper sm:py-32">
+      <div className="wrap">
+        <Reveal className="grid gap-8 lg:grid-cols-12">
+          <h2 id="route-title" className="font-display text-[2.75rem] font-normal leading-[1] tracking-[-0.02em] sm:text-[4rem] lg:col-span-7 lg:text-[5rem]">
+            Eight days, <em className="italic">Marrakech to Fès</em>
+          </h2>
+          <p className="max-w-[40ch] text-[1.125rem] leading-[1.7] text-night-soft lg:col-span-4 lg:col-start-9 lg:self-end">
+            Our signature route over the High Atlas and into the Sahara. One private driver, riads and a desert camp we know by name, no 5 a.m. starts except the one worth it.
+          </p>
         </Reveal>
 
-        <div ref={ref} className="relative mx-auto mt-16 max-w-4xl">
-          <div className="absolute bottom-0 left-5 top-0 w-px bg-sand-50/15 md:left-1/2" />
-          <motion.div style={{ scaleY }} className="absolute bottom-0 left-5 top-0 w-px origin-top bg-saffron md:left-1/2" />
-          <ol className="space-y-10 md:space-y-16">
-            {itinerary.map((step, i) => {
-              const Icon = icons[step.icon]
-              const right = i % 2 === 1
-              return (
-                <li key={step.day} className="relative grid md:grid-cols-2 md:gap-16">
-                  <motion.span
-                    style={{ x: '-50%' }}
-                    initial={{ scale: 0 }}
-                    whileInView={{ scale: 1 }}
-                    viewport={{ once: true, margin: '-100px' }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 18 }}
-                    className="absolute left-5 top-1 z-10 grid h-10 w-10 place-items-center rounded-full bg-saffron text-ink-900 md:left-1/2"
-                  >
-                    <Icon size={18} />
-                  </motion.span>
-                  <motion.div
-                    initial={{ opacity: 0, x: right ? 40 : -40 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: '-100px' }}
-                    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                    className={`pl-14 md:pl-0 ${right ? 'md:col-start-2' : 'md:pr-4 md:text-right'}`}
-                  >
-                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-saffron">Day {step.day} · {step.place}</p>
-                    <h3 className="mt-2 font-display text-2xl font-semibold">{step.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-sand-100/70">{step.detail}</p>
-                  </motion.div>
-                </li>
-              )
-            })}
-          </ol>
+        <div className="mt-16 grid gap-12 lg:mt-24 lg:grid-cols-12 lg:gap-8">
+          <div className="hidden lg:col-span-6 lg:block">
+            <div className="sticky top-24">
+              <div className="relative aspect-[4/5] max-h-[calc(100vh-9rem)] w-full overflow-hidden bg-night-line">
+                <AnimatePresence initial={false}>
+                  <motion.img
+                    key={step.photo}
+                    src={step.photo}
+                    alt=""
+                    width="1280"
+                    height="854"
+                    decoding="async"
+                    initial={{ opacity: 0, scale: reduce ? 1 : 1.06 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.9, ease }}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </AnimatePresence>
+              </div>
+              <p className="mt-4 text-[0.95rem] italic text-night-soft" aria-live="polite">{step.place}, day {step.day}</p>
+            </div>
+          </div>
+
+          <div className="relative lg:col-span-5 lg:col-start-8">
+            <div aria-hidden="true" className="absolute bottom-0 left-0 top-0 w-px bg-night-line" />
+            <motion.div aria-hidden="true" style={{ scaleY: reduce ? scrollYProgress : scaleY }} className="absolute bottom-0 left-0 top-0 w-px origin-top bg-cobalt-light" />
+            <ol ref={listRef} className="space-y-16 lg:space-y-0">
+              {itinerary.map((s, i) => (
+                <Day key={s.day} step={s} index={i} active={i === active} onActive={setActive} showPhoto={i === 0 || s.photo !== itinerary[i - 1].photo} />
+              ))}
+            </ol>
+          </div>
         </div>
       </div>
     </section>

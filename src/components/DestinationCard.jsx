@@ -1,49 +1,55 @@
 import { motion } from 'framer-motion'
-import { Clock, MapPin, Star } from 'lucide-react'
-import DestinationArt from './DestinationArt'
+import { ease } from './Reveal'
 
-export default function DestinationCard({ d, onOpen }) {
+// per row size on desktop: 1 = full-width feature, 2 = wide pair, 3 = tall trio
+const SPAN = { 1: 'lg:col-span-6', 2: 'lg:col-span-3', 3: 'lg:col-span-2' }
+const ASPECT = { 1: 'lg:aspect-[21/9]', 2: 'lg:aspect-[4/3]', 3: 'lg:aspect-[4/5]' }
+
+export default function DestinationCard({ d, size, wide, eager, onOpen }) {
   return (
     <motion.li
       layout
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: 0.15 } }}
+      transition={{ layout: { duration: 0.6, ease }, opacity: { duration: 0.4 } }}
+      className={`${wide ? 'sm:col-span-2' : ''} ${SPAN[size]}`}
     >
-      <motion.button
-        layoutId={`card-${d.id}`}
+      <button
+        type="button"
         onClick={() => onOpen(d.id)}
-        whileHover={{ y: -6 }}
-        whileTap={{ scale: 0.98 }}
-        className="group block w-full overflow-hidden rounded-3xl bg-white text-left shadow-card"
-        aria-label={`Open ${d.name} details`}
+        className="group block w-full text-left"
+        aria-haspopup="dialog"
       >
-        <motion.div layoutId={`art-${d.id}`} className="relative aspect-[4/3] overflow-hidden">
-          <DestinationArt scene={d.scene} palette={d.palette} className="h-full w-full transition-transform duration-700 group-hover:scale-105" />
-          <span className="absolute left-3 top-3 rounded-full bg-white/85 px-3 py-1 text-xs font-semibold backdrop-blur">{d.type}</span>
+        <motion.div
+          layoutId={`photo-${d.id}`}
+          transition={{ duration: 0.6, ease }}
+          className={`relative aspect-[4/3] overflow-hidden bg-paper-deep ${wide ? 'sm:aspect-[16/9]' : 'sm:aspect-[4/5]'} ${ASPECT[size]}`}
+        >
+          <img
+            src={d.photo}
+            alt={d.alt}
+            width="1280"
+            height="854"
+            loading={eager ? 'eager' : 'lazy'}
+            decoding="async"
+            style={{ objectPosition: d.focus }}
+            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          />
         </motion.div>
-        <div className="p-5">
-          <div className="flex items-start justify-between gap-3">
-            <motion.h3 layoutId={`title-${d.id}`} className="font-display text-2xl font-semibold">
-              {d.name}
-            </motion.h3>
-            <span className="flex items-center gap-1 text-sm font-semibold">
-              <Star size={14} className="fill-saffron text-saffron" /> {d.rating}
-            </span>
-          </div>
-          <p className="mt-1 text-sm text-ink-700/70">{d.tagline}</p>
-          <div className="mt-4 flex items-center justify-between border-t border-ink-800/10 pt-4 text-sm">
-            <span className="flex items-center gap-3 text-ink-700/70">
-              <span className="flex items-center gap-1"><MapPin size={14} />{d.region}</span>
-              <span className="flex items-center gap-1"><Clock size={14} />{d.days}d</span>
-            </span>
-            <span>
-              from <strong className="font-semibold text-clay-600">{d.price.toLocaleString('en-US')} MAD</strong>
-            </span>
-          </div>
+        <div className="mt-5 flex items-baseline justify-between gap-4">
+          <h3 className="font-display text-[1.75rem] leading-tight tracking-[-0.01em] decoration-1 underline-offset-[6px] group-hover:underline">
+            {d.name}
+          </h3>
+          <p className="shrink-0 text-[0.95rem] text-ink-soft">
+            from <span className="tnum font-semibold text-ink">{d.price.toLocaleString('en-US')} MAD</span>
+          </p>
         </div>
-      </motion.button>
+        <p className="mt-1 italic text-ink-soft">{d.tagline}</p>
+        <p className="label mt-3 text-[0.75rem] text-ink-mute">
+          {d.region} <span aria-hidden="true">/</span> {d.type} <span aria-hidden="true">/</span> {d.days} {d.days > 1 ? 'days' : 'day'}
+        </p>
+      </button>
     </motion.li>
   )
 }

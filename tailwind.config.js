@@ -4,20 +4,18 @@ export default {
   theme: {
     extend: {
       colors: {
-        sand: { 50: '#FBF7F1', 100: '#F4EBDD', 200: '#EADBC4', 300: '#D9C29F' },
-        clay: { 400: '#D9774F', 500: '#C65D3B', 600: '#A8492B', 700: '#82381F' },
-        ink: { 700: '#2B3A4E', 800: '#1E2A3A', 900: '#141C27' },
-        saffron: '#E3A33B',
-        majorelle: '#2F4BA8',
-        mint: '#3E7C6B',
+        // one neutral family + one accent (Majorelle cobalt), two lightnesses keyed to the ground
+        paper: { DEFAULT: '#F3F1EC', deep: '#E8E4DC' },
+        ink: { DEFAULT: '#17191E', soft: '#4A4E57', mute: '#6B6F78' },
+        night: { DEFAULT: '#121419', soft: '#B8BBC4', line: '#2A2D35' },
+        cobalt: { DEFAULT: '#2140A6', deep: '#18307F', light: '#A9B8FF' },
       },
       fontFamily: {
-        display: ['Fraunces', 'Georgia', 'serif'],
-        sans: ['Manrope', 'system-ui', 'sans-serif'],
+        display: ['"Playfair Display"', 'Georgia', 'serif'],
+        serif: ['"Source Serif 4"', 'Georgia', 'serif'],
       },
-      boxShadow: {
-        card: '0 1px 2px rgba(30,42,58,.06), 0 12px 32px -12px rgba(30,42,58,.25)',
-      },
+      maxWidth: { page: '1320px' },
+      transitionTimingFunction: { out: 'cubic-bezier(0.23, 1, 0.32, 1)' },
     },
   },
   plugins: [],
