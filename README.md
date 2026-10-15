@@ -8,7 +8,10 @@
 
 ## Features
 
-- **Animated hero** with a staggered word reveal, a rotating headline ("red city", "blue pearl", "golden dunes"...) and a cross-fading illustrated arch that follows the headline.
+- **Real-time 3D globe** in the hero, built entirely in code with React Three Fiber: a low-poly icosahedron whose faces are coloured by a procedural continent map, a pulsing marker on Morocco and dashed flight arcs to Paris, London, New York, Dubai and Dakar. Drag to spin; it also turns with scroll. Lazy-loaded with `React.lazy` + `Suspense`, DPR capped at 2, with a CSS fallback when WebGL is unavailable.
+- **Editorial hero** with a staggered word reveal, a rotating italic headline ("red city", "blue pearl", "golden dunes"...), scroll-linked parallax and magnetic call-to-action buttons.
+- **Intro curtain** that wipes away on load, and a **scroll-linked marquee** of destination names (solid and outlined rows moving in opposite directions).
+- **Sticky "crossroads" section**: a 300vh scroll story where facts fade and slide in step with `useScroll`, while an illustrated arch swaps scenes and tilts.
 - **Destination explorer**: 9 Moroccan destinations filterable by region and landscape type. Cards re-flow with layout animations and a sliding active-chip indicator.
 - **Shared-layout detail modal**: the card expands into a full detail view using `layoutId` (image, title and card surface all morph), closes with Esc or backdrop click.
 - **Scroll-driven itinerary**: an 8-day Marrakech to Fès timeline whose progress line is drawn with `useScroll` while each day slides in on view.
@@ -22,6 +25,8 @@
 ![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)
 ![Framer Motion](https://img.shields.io/badge/Framer_Motion-11-0055FF?logo=framer&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?logo=tailwindcss&logoColor=white)
+![Three.js](https://img.shields.io/badge/Three.js-r170-000000?logo=threedotjs&logoColor=white)
+![React Three Fiber](https://img.shields.io/badge/React_Three_Fiber-8-000000?logo=react&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
 ## Getting started
@@ -39,7 +44,11 @@ npm run preview  # serve the production build
 src/
 ├── components/
 │   ├── Navbar.jsx            # glass-on-scroll header + animated mobile menu
-│   ├── Hero.jsx              # staggered + rotating headline, parallax art
+│   ├── Curtain.jsx           # intro wipe
+│   ├── Hero.jsx              # editorial headline, parallax, lazy 3D globe
+│   ├── Magnetic.jsx          # cursor-following magnetic wrapper
+│   ├── Marquee.jsx           # scroll-linked kinetic type
+│   ├── Crossroads.jsx        # sticky scroll story
 │   ├── Explorer.jsx          # filters, layout-animated grid, modal orchestration
 │   ├── FilterChips.jsx       # chip group with shared layoutId indicator
 │   ├── DestinationCard.jsx   # card with layoutId hooks
@@ -49,6 +58,9 @@ src/
 │   ├── Booking.jsx           # validated form + estimate + success state
 │   ├── Reveal.jsx            # whileInView helper
 │   └── Footer.jsx
+├── three/
+│   ├── Globe.jsx             # procedural low-poly globe, marker, flight arcs
+│   └── webgl.js              # WebGL feature detection for the fallback
 ├── data/
 │   ├── destinations.js       # mock destinations, prices in MAD
 │   └── itinerary.js
@@ -67,7 +79,9 @@ src/
 - Spring physics (`stiffness 300–400`) for UI feedback (chips, toggles, steppers) so they feel tactile.
 - A custom ease `[0.22, 1, 0.36, 1]` for content reveals, so sections settle gently.
 - `layoutId` keeps context when opening a destination: the card *becomes* the modal.
-- `useScroll` + `useSpring` tie the itinerary line and the top progress bar to reading position.
+- `useScroll` + `useSpring` tie the itinerary line and the top progress bar to reading position; `useTransform` drives the hero parallax, the marquee and the sticky crossroads story.
+- The 3D globe is the one "wow" moment: calm idle rotation, damped with `THREE.MathUtils.damp` so scroll input never snaps, and the marker pulse echoes the "you are here" card.
+- Magnetic buttons use springs on `x`/`y` motion values and switch off under reduced motion.
 - Everything respects the OS reduced-motion setting through `<MotionConfig reducedMotion="user">`.
 
 ## Author
